@@ -55,7 +55,7 @@ export default function RootLayout({
               <div className="md:col-span-5">
                 <Link href="/" className="inline-flex flex-col items-start mb-8 group">
                   <span className="text-5xl font-black text-white tracking-tighter leading-none group-hover:text-blue-400 transition-colors duration-300">
-                    MS<span className="text-blue-500">E.</span>
+                    MS<span className="text-blue-500">ED.</span>
                   </span>
                   <span className="text-[10px] font-bold text-slate-500 tracking-[0.4em] uppercase mt-3 group-hover:text-slate-300 transition-colors">
                     Engineering Designs
