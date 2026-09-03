@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, PenTool, ClipboardList, AlertTriangle } from "lucide-react"; // Ensure lucide-react is installed
+import { ArrowLeft, PenTool, ClipboardList, AlertTriangle, ArrowRight } from "lucide-react";
 
 // 1. Updated Data matching Homepage (All 16 Sheds with IDs for .webp images and 250 NZD price)
 const shedsData: Record<string, any> = {
@@ -23,172 +23,167 @@ const shedsData: Record<string, any> = {
 };
 
 export default function ShedDetailsPage({ params }: { params: { slug: string } }) {
-  // Graceful fallback in case a slug doesn't match
   const shed = shedsData[params.slug] || shedsData["farm-shed-6-bay"]; 
 
   return (
-    <main className="min-h-screen bg-[#F9F8F4] py-12 px-6">
-      <div className="max-w-7xl mx-auto">
-        
-        {/* Breadcrumb / Back Link */}
-        <div className="mb-8">
-          <Link href="/" className="inline-flex items-center text-[13px] font-bold tracking-widest uppercase text-gray-500 hover:text-[#0F7A4D] transition-colors group">
-            <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
-            Back to all Farm Sheds
-          </Link>
-        </div>
+    <main className="min-h-screen bg-[#F7F7F8] text-slate-900 selection:bg-blue-600 selection:text-white pb-24">
+      
+      {/* 1. MINIMALIST BREADCRUMB */}
+      <div className="max-w-[1400px] mx-auto px-6 pt-10 pb-4">
+        <Link href="/" className="inline-flex items-center text-[11px] font-bold tracking-[0.2em] uppercase text-slate-400 hover:text-blue-600 transition-colors group">
+          <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+          Back to Catalog
+        </Link>
+      </div>
 
-        {/* TOP SECTION: Image & Specs */}
-        <div className="flex flex-col lg:flex-row gap-12 bg-white rounded-3xl shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] p-8 lg:p-12 mb-10 border border-gray-100">
+      {/* 2. HERO SPLIT SECTION (Premium Agency Style) */}
+      <section className="max-w-[1400px] mx-auto px-4 lg:px-6 mb-20">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
           
-          {/* Left: Big Image (.webp dynamic routing) */}
-          <div className="lg:w-[55%] flex flex-col justify-center">
-            <div className="relative h-[350px] lg:h-[500px] w-full rounded-2xl overflow-hidden bg-gray-100 shadow-inner group">
+          {/* Left: Huge Floating Image */}
+          <div className="w-full lg:w-1/2 relative">
+            <div className="relative h-[400px] lg:h-[700px] w-full rounded-[2.5rem] overflow-hidden bg-slate-200 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.1)] group">
               <Image 
                 src={`/${shed.id}.webp`} 
                 alt={shed.name} 
                 fill 
-                className="object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" 
+                className="object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-out" 
               />
+              {/* Glassmorphism Floating Tag */}
+              <div className="absolute top-6 left-6 bg-white/80 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/40 shadow-lg flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+                <span className="text-xs font-bold uppercase tracking-widest text-slate-900">Design Package</span>
+              </div>
             </div>
           </div>
 
-          {/* Right: Specifications & CTA */}
-          <div className="lg:w-[45%] flex flex-col justify-center">
-            <h1 className="text-4xl lg:text-5xl font-extrabold text-[#0D3B26] mb-6 leading-tight tracking-tight">{shed.name}</h1>
+          {/* Right: Typography & Bento Specs */}
+          <div className="w-full lg:w-1/2 flex flex-col justify-center py-6 lg:py-0">
+            <h1 className="text-5xl lg:text-7xl font-black text-slate-900 mb-4 tracking-tighter leading-[1.05]">
+              {shed.name}
+            </h1>
             
-            {/* Pricing Area (Updated Label & Currency) */}
-            <div className="mb-8 p-6 bg-[#F9F8F4] rounded-2xl border border-gray-100">
-              <div className="text-[11px] text-[#8B7355] font-bold uppercase tracking-[0.2em] mb-2 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#0F7A4D]"></span>
-                Design Package
+            <div className="flex items-baseline gap-3 mb-10 pb-10 border-b border-slate-200">
+              <span className="text-5xl lg:text-6xl font-black text-blue-600 tracking-tighter">{shed.price}</span>
+              <span className="text-xl font-bold text-slate-400 uppercase tracking-widest">NZD <span className="text-sm">+ GST</span></span>
+            </div>
+
+            {/* Mini Bento-Grid for Specs */}
+            <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest mb-4">Engineering Specs</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-12">
+              <div className="bg-white p-5 rounded-2xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.03)] border border-slate-100 flex flex-col justify-center hover:-translate-y-1 transition-transform">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Length</span>
+                <span className="text-lg font-black text-slate-900">{shed.length}</span>
               </div>
-              <div className="flex items-baseline">
-                <span className="text-4xl text-[#0D3B26] font-black tracking-tighter">{shed.price} NZD</span>
-                
+              <div className="bg-white p-5 rounded-2xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.03)] border border-slate-100 flex flex-col justify-center hover:-translate-y-1 transition-transform">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Depth</span>
+                <span className="text-lg font-black text-slate-900">{shed.depth}</span>
+              </div>
+              <div className="bg-white p-5 rounded-2xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.03)] border border-slate-100 flex flex-col justify-center hover:-translate-y-1 transition-transform">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Height</span>
+                <span className="text-lg font-black text-slate-900">{shed.height}</span>
+              </div>
+              <div className="bg-white p-5 rounded-2xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.03)] border border-slate-100 flex flex-col justify-center hover:-translate-y-1 transition-transform">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Bay Width</span>
+                <span className="text-lg font-black text-slate-900">{shed.bayWidth}</span>
+              </div>
+              <div className="bg-white p-5 rounded-2xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.03)] border border-slate-100 flex flex-col justify-center md:col-span-2 hover:-translate-y-1 transition-transform">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Structure</span>
+                <span className="text-lg font-black text-slate-900">{shed.poles}</span>
               </div>
             </div>
 
-            {/* Spec Table */}
-            <div className="space-y-4 border-t border-gray-100 pt-6 mb-8">
-              <div className="flex justify-between border-b border-gray-50 pb-3">
-                <span className="font-semibold text-gray-800 uppercase text-xs tracking-wider">Length</span>
-                <span className="text-[#0D3B26] font-bold">{shed.length}</span>
-              </div>
-              <div className="flex justify-between border-b border-gray-50 pb-3">
-                <span className="font-semibold text-gray-800 uppercase text-xs tracking-wider">Depth</span>
-                <span className="text-[#0D3B26] font-bold">{shed.depth}</span>
-              </div>
-              <div className="flex justify-between border-b border-gray-50 pb-3">
-                <span className="font-semibold text-gray-800 uppercase text-xs tracking-wider">Height</span>
-                <span className="text-[#0D3B26] font-bold">{shed.height}</span>
-              </div>
-              <div className="flex justify-between border-b border-gray-50 pb-3">
-                <span className="font-semibold text-gray-800 uppercase text-xs tracking-wider">Bay Width</span>
-                <span className="text-[#0D3B26] font-bold">{shed.bayWidth}</span>
-              </div>
-              <div className="flex justify-between border-b border-gray-50 pb-3">
-                <span className="font-semibold text-gray-800 uppercase text-xs tracking-wider">Structure</span>
-                <span className="text-[#0D3B26] font-bold">{shed.poles}</span>
-              </div>
-            </div>
-
-            {/* Design Enquiry Button */}
+            {/* Giant CTA */}
             <Link 
               href={`/design-your-shed?category=${params.slug}`}
-              className="group relative flex items-center justify-center gap-2 w-full bg-[#0D3B26] text-white font-bold py-5 rounded-2xl shadow-[0_8px_20px_-6px_rgba(13,59,38,0.4)] transition-all hover:shadow-[0_8px_25px_-6px_rgba(15,122,77,0.6)] hover:-translate-y-1 overflow-hidden"
+              className="group relative flex items-center justify-between w-full bg-slate-900 text-white font-bold p-2 pl-8 rounded-full shadow-[0_10px_30px_-10px_rgba(15,23,42,0.5)] transition-all hover:shadow-[0_10px_40px_-10px_rgba(37,99,235,0.6)] hover:bg-blue-600 overflow-hidden"
             >
-              <span className="absolute inset-0 bg-[#0F7A4D] opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"></span>
-              <span className="relative z-10 flex items-center gap-2 uppercase tracking-widest text-sm">
-                Start Your Design Form
-              </span>
+              <span className="relative z-10 uppercase tracking-widest text-sm">Start Your Design</span>
+              <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-md group-hover:bg-white group-hover:text-blue-600 transition-colors">
+                <ArrowRight className="w-6 h-6" />
+              </div>
             </Link>
           </div>
         </div>
+      </section>
 
-        {/* MIDDLE SECTION: Custom Info & PS1 Note */}
-        <div className="bg-white rounded-3xl shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] p-8 lg:p-14 border border-gray-100 mb-16">
-          <div className="max-w-5xl mx-auto">
+      {/* 3. MAGAZINE-STYLE INFO SECTION */}
+      <section className="max-w-7xl mx-auto px-6 mb-20">
+        <div className="bg-white rounded-[3rem] p-8 md:p-16 lg:p-20 shadow-[0_4px_40px_-10px_rgba(0,0,0,0.03)] border border-slate-100">
+          
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">The Package Details.</h2>
+            <p className="text-slate-500 text-lg md:text-xl">
+              Highly accurate, structural drawing-based planning tailored to this layout. No guesswork, just precision.
+            </p>
+          </div>
+
+          {/* Asymmetric Info Bento */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
             
-            <div className="text-center mb-10">
-              <h2 className="text-3xl font-extrabold text-[#0D3B26] mb-4">What's Included in This Package?</h2>
-              <p className="text-gray-500 max-w-2xl mx-auto">
-                MS Engineering Designs provides highly accurate, structural drawing-based planning tailored to this specific layout.
-              </p>
-            </div>
-
-            {/* Client's Requested Information (Design & Drafting + Material Take-offs) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-              
-              <div className="bg-[#F9F8F4] p-8 rounded-2xl border border-[#E2E8D5] hover:border-[#8B7355] transition-colors">
-                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm mb-6">
-                  <PenTool className="w-6 h-6 text-[#0F7A4D]" />
-                </div>
-                <h3 className="text-xl font-extrabold text-[#0D3B26] mb-3">1. Design & Drafting</h3>
-                <p className="text-gray-600 leading-relaxed font-medium">
+            {/* Dark Box */}
+            <div className="bg-slate-900 text-white p-10 md:p-14 rounded-[2rem] flex flex-col justify-between group hover:-translate-y-1 transition-transform">
+              <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mb-8 backdrop-blur-sm">
+                <PenTool className="w-7 h-7 text-white" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-black mb-4 tracking-tight">Design & Drafting</h3>
+                <p className="text-slate-400 text-lg leading-relaxed">
                   Full structural design with daily drawing deliveries via my in-house drafting team.
                 </p>
               </div>
+            </div>
 
-              <div className="bg-[#F9F8F4] p-8 rounded-2xl border border-[#E2E8D5] hover:border-[#8B7355] transition-colors">
-                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm mb-6">
-                  <ClipboardList className="w-6 h-6 text-[#0F7A4D]" />
-                </div>
-                <h3 className="text-xl font-extrabold text-[#0D3B26] mb-3">2. Material Take-offs</h3>
-                <p className="text-gray-600 leading-relaxed font-medium">
+            {/* Light Box */}
+            <div className="bg-blue-50 text-slate-900 p-10 md:p-14 rounded-[2rem] border border-blue-100 flex flex-col justify-between group hover:-translate-y-1 transition-transform">
+              <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-8 shadow-sm">
+                <ClipboardList className="w-7 h-7 text-blue-600" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-black mb-4 tracking-tight">Material Take-offs</h3>
+                <p className="text-slate-600 text-lg leading-relaxed">
                   Complete schedules covering all timber members, plus all nails, screws, bolts, and fixings with precise quantities.
                 </p>
               </div>
-
             </div>
-            
-            {/* Exact Required PS1 Limitation Note */}
-            <div className="bg-[#FFF4F4] border border-[#FFA3A3] text-[#B71C1C] p-6 rounded-2xl flex items-start md:items-center gap-4 shadow-sm max-w-3xl mx-auto">
-              <AlertTriangle className="w-6 h-6 shrink-0 mt-0.5 md:mt-0" />
-              <p className="font-bold text-lg">
-                Note: We dont do PS1 ( producer statement 1 )
-              </p>
-            </div>
-
-          </div>
-        </div>
-
-        {/* BOTTOM SECTION: Circular Feature Badges */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center max-w-5xl mx-auto pb-10">
-          <div className="flex flex-col items-center group">
-            <div className="w-24 h-24 rounded-full border-4 border-[#F9F8F4] group-hover:border-[#0F7A4D] transition-colors flex items-center justify-center mb-4 bg-white shadow-sm">
-              <span className="text-gray-400 group-hover:text-[#0F7A4D] font-black text-lg transition-colors">PLANS</span>
-            </div>
-            <h4 className="font-extrabold text-[#0D3B26] mb-2 uppercase tracking-wider text-sm">Clear Designs</h4>
-            <p className="text-sm text-gray-500 font-medium px-4">Easy-to-read structural drawings for your builder.</p>
           </div>
           
-          <div className="flex flex-col items-center group">
-            <div className="w-24 h-24 rounded-full border-4 border-[#F9F8F4] group-hover:border-[#0F7A4D] transition-colors flex items-center justify-center mb-4 bg-white shadow-sm">
-              <span className="text-gray-400 group-hover:text-[#0F7A4D] font-black text-lg transition-colors">TOUGH</span>
+          {/* Elegant PS1 Warning */}
+          <div className="bg-red-50/50 border border-red-100 p-6 md:p-8 rounded-[2rem] flex flex-col md:flex-row items-center gap-6 max-w-4xl mx-auto text-center md:text-left">
+            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center shrink-0">
+              <AlertTriangle className="w-8 h-8 text-red-600" />
             </div>
-            <h4 className="font-extrabold text-[#0D3B26] mb-2 uppercase tracking-wider text-sm">High Durability</h4>
-            <p className="text-sm text-gray-500 font-medium px-4">Engineered for high wind zones and snow loading.</p>
+            <div>
+              <h4 className="text-red-900 font-black text-xl mb-1 tracking-tight">Important Note</h4>
+              <p className="text-red-700/80 font-medium">
+                We provide comprehensive design and material schedules, but we do not issue PS1 (Producer Statement 1).
+              </p>
+            </div>
           </div>
 
-          <div className="flex flex-col items-center group">
-            <div className="w-24 h-24 rounded-full border-4 border-[#F9F8F4] group-hover:border-[#0F7A4D] transition-colors flex items-center justify-center mb-4 bg-white shadow-sm">
-              <span className="text-gray-400 group-hover:text-[#0F7A4D] font-black text-lg transition-colors">EXACT</span>
-            </div>
-            <h4 className="font-extrabold text-[#0D3B26] mb-2 uppercase tracking-wider text-sm">Material Takeoff</h4>
-            <p className="text-sm text-gray-500 font-medium px-4">Precise quantity calculations to avoid wastage.</p>
-          </div>
-
-          <div className="flex flex-col items-center group">
-            <div className="w-24 h-24 rounded-full border-4 border-[#F9F8F4] group-hover:border-[#0F7A4D] transition-colors flex items-center justify-center mb-4 bg-white shadow-sm">
-              <span className="text-gray-400 group-hover:text-[#0F7A4D] font-black text-lg transition-colors">STRONG</span>
-            </div>
-            <h4 className="font-extrabold text-[#0D3B26] mb-2 uppercase tracking-wider text-sm">Structural Stability</h4>
-            <p className="text-sm text-gray-500 font-medium px-4">Precision-engineered framing for optimal strength.</p>
-          </div>
         </div>
+      </section>
 
-      </div>
+      {/* 4. FOOTER BADGES (Sleek Grid) */}
+      <section className="max-w-5xl mx-auto px-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          {[
+            { tag: "PLANS", title: "Clear Designs", desc: "Easy-to-read structural drawings." },
+            { tag: "TOUGH", title: "High Durability", desc: "For high wind and snow loading." },
+            { tag: "EXACT", title: "Material Takeoff", desc: "Precise quantity calculations." },
+            { tag: "STRONG", title: "Structural Stability", desc: "Optimal strength framing." }
+          ].map((item, index) => (
+            <div key={index} className="flex flex-col items-center p-6 bg-white rounded-[2rem] shadow-[0_4px_20px_-5px_rgba(0,0,0,0.02)] border border-slate-100">
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600 bg-blue-50 px-3 py-1 rounded-full mb-4">
+                {item.tag}
+              </span>
+              <h4 className="font-black text-slate-900 mb-2 tracking-tight">{item.title}</h4>
+              <p className="text-xs text-slate-500 font-medium leading-relaxed">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
     </main>
   );
 }
